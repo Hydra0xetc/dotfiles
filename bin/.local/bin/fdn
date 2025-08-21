@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Cari file dengan ekstensi py, cpp, lua, go, c
+selected=$(fd -e py -e cpp -e lua -e go -e c . \
+    | fzf --prompt="Pilih file > " --height=40% --border)
+
+# Jika ada file terpilih, buka dengan nvim
+if [[ -n "$selected" ]]; then
+    nvim "$selected"
+else
+    echo "Tidak ada file yang dipilih."
+fi

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+DIR=$(fd . --type d -L | fzf --border --height=40% --prompt="Select directory: ")
+
+# Cek apakah user memilih sesuatu
+if [[ -z "$DIR" ]]; then
+  exit 0
+fi
+
+SESSION_NAME=$(basename "$DIR")
+
+# Cek apakah session tmux sudah ada
+if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
+  tmux attach-session -t "$SESSION_NAME"
+else
+  tmux new-session -s "$SESSION_NAME" -c "$DIR"
+fi

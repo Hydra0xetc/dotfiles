@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# Cek apakah ada session tmux
+sessions=$(tmux ls 2>/dev/null)
+if [ -z "$sessions" ]; then
+  echo "Tidak ada session tmux yang aktif."
+  exit 1
+fi
+
+# Pilih session pakai fzf
+selected=$(echo "$sessions" | fzf --prompt="Pilih session tmux > " --height=40% --reverse | cut -d: -f1)
+
+# Jika ada pilihan, attach
+if [ -n "$selected" ]; then
+  tmux attach -t "$selected"
+else
+  echo "Tidak ada session yang dipilih."
+fi
