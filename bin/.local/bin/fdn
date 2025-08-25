@@ -1,12 +1,18 @@
 #!/bin/bash
 
-# Cari file dengan ekstensi py, cpp, lua, go, c
-selected=$(fd -e py -e cpp -e lua -e go -e c . \
-    | fzf --prompt="Pilih file > " --height=40% --border)
+# Cari file dengan ekstensi umum
+files_ext=$(fd -e js -e sh -e json -e py -e cpp -e lua -e go -e c .)
+
+# Cari file yang punya shebang python/sh/bash
+files_shebang=$(rg -Il '^\#\!.*(env (python|bash|sh)|python|bash|sh)' .)
+
+# Gabungkan, hilangkan duplikat
+selected=$(printf "%s\n%s\n" "$files_ext" "$files_shebang" | sort -u |
+  fzf --preview-window=up:60%:wrap --preview='cat {}' --prompt="Pilih file > " --border)
 
 # Jika ada file terpilih, buka dengan nvim
 if [[ -n "$selected" ]]; then
-    nvim "$selected"
+  nvim "$selected"
 else
-    echo "Tidak ada file yang dipilih."
+  echo "Tidak ada file yang dipilih."
 fi

@@ -119,25 +119,20 @@ source $ZSH/oh-my-zsh.sh
 
 export MANPAGER='nvim +Man!'
 
-
+source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 alias damn='source ~/.zshrc'
 alias la='ls -A'
-alias ls='lsd'
+alias ls='eza --icons'
 
 renice -n -30 $$
 alias play='python ~/Github_Project/PyTUI_Music/main.py'
 alias yt='python ~/storage/pictures/downloader/downloader_yt.py'
-# alias gcc-windows='x86_64-w64-mingw32-gcc'
-# alias gpp-windows='x86_64-w64-mingw32-g++'
-# alias gcc-linux='x86_64-linux-gnu-gcc'
-# alias gpp-linux='x86_64-linux-gnu-g++'
-# alias objdump-windows='x86_64-w64-mingw32-objdump'
-# alias objdump-linux='x86_64-linux-gnu-objdump'
-alias debian='proot-distro login debian --bind /sdcard/ --isolated'
-alias ubuntu='proot-distro login ubuntu --bind /sdcard/ --isolated'
-alias arch='proot-distro login archlinux --bind /sdcard/ --isolated'
+alias ig='python ~/storage/pictures/downloader/downloader_ig.py'
+# alias debian='proot-distro login debian --bind /sdcard/ --isolated'
+# alias ubuntu='proot-distro login ubuntu --bind /sdcard/ --isolated'
+# alias arch='proot-distro login archlinux --bind /sdcard/ --isolated'
 # export TERM=xterm-256color
-alias cdf="cd \$(fd --type d | fzf --preview='ls {}' --preview-window=up)"
 export PATH='/data/data/com.termux/files/usr/bin'
 export PATH="$PATH:/data/data/com.termux/files/home/.local/bin"
 alias termux11='termux-x11 -xstartup "dbus-launch --exit-with-session xfce4-session"'

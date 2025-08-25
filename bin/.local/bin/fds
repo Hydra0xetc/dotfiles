@@ -8,7 +8,7 @@ if [ -z "$sessions" ]; then
 fi
 
 # Pilih session pakai fzf
-selected=$(echo "$sessions" | fzf --prompt="Pilih session tmux > " --height=40% --reverse | cut -d: -f1)
+selected=$(echo "$sessions" | fzf-tmux -p --border --prompt="Pilih session tmux > " --height=40% --reverse | cut -d: -f1)
 
 # Jika ada pilihan, attach
 if [ -n "$selected" ]; then

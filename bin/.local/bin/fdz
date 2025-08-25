@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-DIR=$(fd . --type d -L | fzf --border --height=40% --prompt="Select directory: ")
+DIR=$(fd . --type d -L | fzf-tmux -p --border --height=40% --prompt="Select directory: ")
 
 # Cek apakah user memilih sesuatu
 if [[ -z "$DIR" ]]; then
