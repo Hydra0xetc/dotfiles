@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+BASE="/data/data/com.termux/files/home"
+
+DIR_REL=$(fd . "$BASE" --type d -L | sed "s|^$BASE|/home|" | fzf \
+  --height=40% \
+  --border \
+  --prompt="Select directory: ")
+
+if [[ -z "$DIR_REL" ]]; then
+  return 0
+fi
+
+DIR="${DIR_REL/\/home/$BASE}"
+
+cd "$DIR" || return 1

@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 
-DIR=$(fd . '/data/data/com.termux/files/home' --type d -L | fzf-tmux -p --border --height=40% --prompt="Select directory: ")
+BASE="/data/data/com.termux/files/home"
+DIR_REL=$(fd . "$BASE" --type d -L | sed "s|^$BASE|/home|" | fzf-tmux -p --border --height=40% --prompt="Select directory: ")
 
-# Cek apakah user memilih sesuatu
-if [[ -z "$DIR" ]]; then
+if [[ -z "$DIR_REL" ]]; then
   exit 0
 fi
 
+DIR="${DIR_REL/\/home/$BASE}"
+
 SESSION_NAME=$(basename "$DIR")
 
-# Cek apakah session tmux sudah ada
 if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
   tmux attach-session -t "$SESSION_NAME"
 else

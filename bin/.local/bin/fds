@@ -13,6 +13,4 @@ selected=$(echo "$sessions" | fzf-tmux -p --border --prompt="Pilih session tmux 
 # Jika ada pilihan, attach
 if [ -n "$selected" ]; then
   tmux attach -t "$selected"
-else
-  echo "Tidak ada session yang dipilih."
 fi
