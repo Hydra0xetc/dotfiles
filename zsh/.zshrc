@@ -118,28 +118,30 @@ source $ZSH/oh-my-zsh.sh
 [[ $- != *i* ]] && return
 
 export MANPAGER='nvim +Man!'
+export EDITOR='nvim'
+export VISUAL='nvim'
 
 source ~/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+ZSH_HIGHLIGHT_STYLES[default]='fg=gray'
 alias damn='source ~/.zshrc'
 alias la='ls -A'
+alias cd='z'
 alias ls='eza --icons'
 
 renice -n -30 $$
 alias play='python ~/Github_Project/PyTUI_Music/main.py'
 alias yt='python ~/storage/pictures/downloader/downloader_yt.py'
 alias ig='python ~/storage/pictures/downloader/downloader_ig.py'
-# alias debian='proot-distro login debian --bind /sdcard/ --isolated'
-alias ubuntu='proot-distro login ubuntu --bind /sdcard/ --isolated'
-# alias arch='proot-distro login archlinux --bind /sdcard/ --isolated'
-# export TERM=xterm-256color
 alias cdf='source ~/.local/bin/cdf'
 export PATH='/data/data/com.termux/files/usr/bin'
 export PATH="$PATH:/data/data/com.termux/files/home/.local/bin"
 alias termux11='termux-x11 -xstartup "dbus-launch --exit-with-session xfce4-session"'
 alias gef='gdb -ex "source ~/.gef-2025.01.py"'
 eval "$(zoxide init zsh)"
+eval "$(fzf --zsh)"
+crond
 
 clear
-neofetch
+fastfetch
 ~/sapa
