@@ -17,6 +17,7 @@ return {
         },
 
         lua_ls = {
+          mason = false,
           cmd = { "/data/data/com.termux/files/usr/bin/lua-language-server" },
           settings = {
             Lua = {
@@ -40,9 +41,6 @@ return {
         jsonls = {},
         html = {},
         ts_ls = {},
-
-        -- Nonaktifkan pyright
-        pyright = false,
 
         -- Aktifkan basedpyright
         basedpyright = {

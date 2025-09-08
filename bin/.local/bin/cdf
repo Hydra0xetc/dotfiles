@@ -2,7 +2,7 @@
 
 BASE="/data/data/com.termux/files/home"
 
-DIR_REL=$(fd . "$BASE" --type d -L | sed "s|^$BASE|/home|" | fzf \
+DIR_REL=$(fd . "$BASE" --type d -L -H | sed "s|^$BASE|/home|" | fzf \
   --height=40% \
   --border \
   --prompt="Select directory: ")
