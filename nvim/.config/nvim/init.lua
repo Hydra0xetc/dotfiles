@@ -5,9 +5,6 @@ vim.diagnostic.enable(true)
 vim.opt.termguicolors = true
 vim.opt.guicursor = ""
 
-vim.api.nvim_set_keymap('n', '<C-q>', ':q<CR>', { noremap = true, silent = true })
-
-
 -- set man number
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "man",

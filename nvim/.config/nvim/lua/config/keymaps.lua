@@ -3,3 +3,4 @@
 -- Add any additional keymaps here
 
 vim.keymap.set('n', 'r', '<C-r>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', '<C-q>', ':q<CR>', { noremap = true, silent = true })

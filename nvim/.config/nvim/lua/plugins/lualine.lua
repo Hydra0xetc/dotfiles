@@ -9,12 +9,22 @@ end
 
 return {
   "nvim-lualine/lualine.nvim",
-  opts = function(_, opts)
-    opts.sections.lualine_a = { "mode" }
-    opts.sections.lualine_b = {}
-    opts.sections.lualine_c = { "filename" }
-    opts.sections.lualine_x = { macro_recording }
-    opts.sections.lualine_y = {}
-    opts.sections.lualine_z = { "location" }
+  event = { "BufReadPost", "BufNewFile" },
+  opts = function()
+    return {
+      options = {
+        theme = "auto",
+        globalstatus = true,
+        refresh = { statusline = 1000 }, -- Reduce refresh rate
+      },
+      sections = {
+        lualine_a = { "mode" },
+        lualine_b = {},
+        lualine_c = { "filename" },
+        lualine_x = { macro_recording },
+        lualine_y = {},
+        lualine_z = { "location" },
+      },
+    }
   end,
 }

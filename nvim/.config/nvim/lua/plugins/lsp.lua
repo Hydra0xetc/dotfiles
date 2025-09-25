@@ -37,7 +37,10 @@ return {
             },
           },
         },
-        bashls = {},
+        bashls = {
+          mason = false,
+          cmd = { "bash-language-server", "start" },
+        },
         jsonls = {},
         html = {},
         ts_ls = {},
@@ -45,7 +48,11 @@ return {
         -- Aktifkan basedpyright
         basedpyright = {
           mason = false,
-          cmd = { "basedpyright-langserver", "--stdio" },
+          cmd = {
+            "basedpyright-langserver",
+            "--stdio",
+            "--project ~/.config/pyrightconfig.json",
+          },
           settings = {
             python = {
               analysis = {
