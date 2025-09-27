@@ -18,15 +18,15 @@ return {
 
         lua_ls = {
           mason = false,
-          cmd = { "/data/data/com.termux/files/usr/bin/lua-language-server" },
+          cmd = { "lua-language-server" },
           settings = {
             Lua = {
               runtime = {
-                version = 'LuaJIT',
-                path = vim.split(package.path, ';'),
+                version = "LuaJIT",
+                path = vim.split(package.path, ";"),
               },
               diagnostics = {
-                globals = {'vim'},
+                globals = { "vim" },
               },
               workspace = {
                 library = vim.api.nvim_get_runtime_file("", true),
@@ -43,9 +43,35 @@ return {
         },
         jsonls = {},
         html = {},
-        ts_ls = {},
-
-        -- Aktifkan basedpyright
+        typescript = {
+          mason = false,
+          cmd = { "typescript-language-server", "--stdio" },
+          filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+          settings = {
+            typescript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "none",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = false,
+                includeInlayVariableTypeHints = false,
+                includeInlayPropertyDeclarationTypeHints = false,
+                includeInlayFunctionLikeReturnTypeHints = false,
+                includeInlayEnumMemberValueHints = false,
+              },
+            },
+            javascript = {
+              inlayHints = {
+                includeInlayParameterNameHints = "none",
+                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                includeInlayFunctionParameterTypeHints = false,
+                includeInlayVariableTypeHints = false,
+                includeInlayPropertyDeclarationTypeHints = false,
+                includeInlayFunctionLikeReturnTypeHints = false,
+                includeInlayEnumMemberValueHints = false,
+              },
+            },
+          },
+        },
         basedpyright = {
           mason = false,
           cmd = {

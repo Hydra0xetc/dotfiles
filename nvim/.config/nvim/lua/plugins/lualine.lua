@@ -15,7 +15,7 @@ return {
       options = {
         theme = "auto",
         globalstatus = true,
-        refresh = { statusline = 1000 }, -- Reduce refresh rate
+        refresh = { statusline = 1000 },
       },
       sections = {
         lualine_a = { "mode" },
