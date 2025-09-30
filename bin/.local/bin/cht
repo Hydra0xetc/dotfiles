@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+selected=`cat ~/.command ~/.language | fzf`
+if [[ -z $selected ]]; then
+    exit 0
+fi
+
+read -p "Enter Query: " query
+
+if grep -qs "$selected" ~/.language; then
+    query=`echo $query | tr ' ' '+'`
+    echo "=== cht.sh/$selected/$query ==="
+    curl -s "cht.sh/$selected/$query"  # ?T untuk disable colors
+else
+    echo "=== cht.sh/$selected~$query ==="
+    curl -s "cht.sh/$selected~$query"
+fi
