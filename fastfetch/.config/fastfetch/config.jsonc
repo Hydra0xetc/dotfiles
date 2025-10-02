@@ -57,6 +57,10 @@
       "key": "{#separator}│  {#keys}󱂬 WM"
     },
     {
+      "type": "font",
+      "key": "{#separator}│  {#keys} Ui font"
+    },
+    {
       "type": "wmtheme",
       "key": "{#separator}│  {#keys}󰉼 Theme"
     },
@@ -66,15 +70,15 @@
     },
     {
       "type": "editor",
-      "key": "{#separator}|  {#keys}  Editor"
+      "key": "{#separator}│  {#keys} Editor"
     },
     {
       "type": "shell",
       "key": "{#separator}│  {#keys}󰞷 Shell"
     },
     {
-      "type": "terminalfont",
-      "key": "{#separator}│  {#keys}󰛖 Font"
+      "type": "custom",
+      "key": "{#separator}│  {#keys}󰛖 Font{#} MesloLGS NF"
     },
     {
       "type": "custom",
