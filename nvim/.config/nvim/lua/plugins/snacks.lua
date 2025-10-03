@@ -74,6 +74,16 @@ return {
             end
           },
           {
+            icon = " ",
+            key = "c",
+            desc = "Config",
+            action = function()
+              require("snacks.picker").files({
+                cwd = vim.fn.stdpath("config")
+              })
+            end
+          },
+          {
             icon = " ",
             key = "q",
             desc = "Quit",
