@@ -1,1 +1,2 @@
-require("mynvim")
+require("mynvim.core")
+require("mynvim.lazy")
