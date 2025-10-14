@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 BASE="/data/data/com.termux/files/home"
-DIR_REL=$(fd . "$BASE" --type d -L | sed "s|^$BASE|/home|" | fzf-tmux -p --border --height=40% --prompt="Select directory: ")
+DIR_REL=$(fd . "$BASE" --type d -L | sed "s|^$BASE|/home|" | fzf --border --height=40% --prompt="Select directory: ")
 
 if [[ -z "$DIR_REL" ]]; then
   exit 0
@@ -11,8 +11,20 @@ DIR="${DIR_REL/\/home/$BASE}"
 
 SESSION_NAME=$(basename "$DIR")
 
+switch_to() {
+    if [[ -z $TMUX ]]; then
+        # Jika TIDAK di dalam tmux -> attach
+        tmux attach-session -t "$1"
+    else
+        # Jika SUDAH di dalam tmux -> switch client
+        tmux switch-client -t "$1"
+    fi
+}
+
 if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
-  tmux attach-session -t "$SESSION_NAME"
+    switch_to "$SESSION_NAME"
 else
-  tmux new-session -s "$SESSION_NAME" -c "$DIR"
+    # Buat session baru dalam keadaan detached
+    tmux new-session -ds "$SESSION_NAME" -c "$DIR"
+    switch_to "$SESSION_NAME"
 fi

@@ -4,13 +4,27 @@
 sessions=$(tmux ls 2>/dev/null)
 if [ -z "$sessions" ]; then
   echo "Tidak ada session tmux yang aktif."
-  exit 1
+  exit 127
 fi
 
 # Pilih session pakai fzf
-selected=$(echo "$sessions" | fzf-tmux -p --border --prompt="Pilih session tmux > " --height=40% --reverse | cut -d: -f1)
+selected=$(echo "$sessions" | fzf --border --prompt="Pilih session tmux > " --height=60% --reverse | cut -d: -f1)
 
-# Jika ada pilihan, attach
-if [ -n "$selected" ]; then
-  tmux attach -t "$selected"
+# Jika tidak ada pilihan, keluar
+if [ -z "$selected" ]; then
+  exit 0
 fi
+
+# Fungsi untuk switch/attach session
+switch_to() {
+    if [[ -z $TMUX ]]; then
+        # Jika TIDAK di dalam tmux -> attach
+        tmux attach -t "$1"
+    else
+        # Jika SUDAH di dalam tmux -> switch client
+        tmux switch-client -t "$1"
+    fi
+}
+
+# Switch ke session yang dipilih
+switch_to "$selected"
