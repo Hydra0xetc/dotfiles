@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+package="$(
+    apt-cache pkgnames | \
+        fzf -m \
+        --prompt="Select A Packages To Install: "\
+        --preview="apt show {}" \
+        --preview-window="top:75%" |
+    tr "\n" " "
+)"
+
+[[ $package ]] && read -n1 -p "Install ${package}? [y/N]: " install
+[[ "$install" == "y" ]] && apt install -y $package

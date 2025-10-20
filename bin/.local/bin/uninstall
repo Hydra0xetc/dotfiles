@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+package="$(dpkg-query -W -f='${Package}\n' |
+    fzf -m \
+    --prompt="Select A Package To Uninstall: "\
+    --preview="apt show {}" \
+    --preview-window="top:75%" |
+    tr "\n" " "
+)"
+
+[[ $package ]] && read -n1 -p "Uninstall ${package}? [y/N]: " uninstall
+[[ "$uninstall" == "y" ]] && apt remove -y $package
