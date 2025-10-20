@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+set -e
 
 # Fungsi untuk mengecek apakah command ada di PATH
 check_command() {
@@ -95,6 +97,7 @@ apt update
 tools=(
     # System tools (bisa dicek dengan command)
     "command:nvim:neovim:apt"
+    "command:ruff:ruff:apt"
     "command:srm:secure-delete:apt"
     "command:node:nodejs:apt"
     "command:yarn:yarn:apt"
@@ -124,6 +127,7 @@ tools=(
     "command:lua-language-server:lua-language-server:apt"
     "command:bash-language-server:bash-language-server:npm"
     "npm_package:typescript:typescript:npm"
+    "command:prettier:prettier:npm"
     "command:basedpyright:basedpyright:npm"
     "command:typescript-language-server:typescript-language-server:npm"
     
