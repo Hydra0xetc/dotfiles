@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-set -e
-
 # Fungsi untuk mengecek apakah command ada di PATH
 check_command() {
     if command -v "$1" &> /dev/null; then
@@ -58,7 +56,7 @@ install_pip3_if_needed() {
     if ! command -v pip3 &> /dev/null; then
         echo "Menginstall python3-pip..."
         apt update
-        apt install -y python3-pip
+        apt install -y python-pip
         pip3 install --upgrade pip
         echo "pip3 berhasil diinstall"
     else
@@ -98,6 +96,8 @@ tools=(
     # System tools (bisa dicek dengan command)
     "command:nvim:neovim:apt"
     "command:ruff:ruff:apt"
+    "command:zoxide:zoxide:apt"
+    "command:eza:eza:apt"
     "command:srm:secure-delete:apt"
     "command:node:nodejs:apt"
     "command:yarn:yarn:apt"

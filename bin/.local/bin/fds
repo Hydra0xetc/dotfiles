@@ -1,30 +1,30 @@
 #!/bin/bash
 
-# Cek apakah ada session tmux
+# Check if there are any tmux sessions
 sessions=$(tmux ls 2>/dev/null)
 if [ -z "$sessions" ]; then
-  echo "Tidak ada session tmux yang aktif."
-  exit 127
+  echo "No active tmux sessions found."
+  exit 1
 fi
 
-# Pilih session pakai fzf
-selected=$(echo "$sessions" | fzf --border --prompt="Pilih session tmux > " --height=60% --reverse | cut -d: -f1)
+# Select session using fzf
+selected=$(echo "$sessions" | fzf --border --prompt="Select tmux session > " --height=60% --reverse | cut -d: -f1)
 
-# Jika tidak ada pilihan, keluar
+# Exit if no selection was made
 if [ -z "$selected" ]; then
   exit 0
 fi
 
-# Fungsi untuk switch/attach session
+# Function to switch/attach session
 switch_to() {
     if [[ -z $TMUX ]]; then
-        # Jika TIDAK di dalam tmux -> attach
+        # If NOT inside tmux -> attach
         tmux attach -t "$1"
     else
-        # Jika SUDAH di dalam tmux -> switch client
+        # If already inside tmux -> switch client
         tmux switch-client -t "$1"
     fi
 }
 
-# Switch ke session yang dipilih
+# Switch to selected session
 switch_to "$selected"

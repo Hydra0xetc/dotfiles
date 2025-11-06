@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+STOW_DIR="$HOME/github_project"
+TARGET_DIR="$HOME"
+
+NVIM=$(cat ~/.path | fzf | xargs basename)
+
+echo "Switching to: $NVIM"
+
+cd "$STOW_DIR"
+
+while IFS= read -r package; do
+    PKG_NAME=$(basename "$package")
+    if [ "$PKG_NAME" != "$NVIM" ]; then
+        echo "Unstowing: $PKG_NAME"
+        stow -t "$TARGET_DIR" -D "$PKG_NAME" 2>/dev/null
+    fi
+done < ~/.path
+
+echo "Stowing: $NVIM"
+stow -t "$TARGET_DIR" "$NVIM"
+echo "Done! Current package: $NVIM"

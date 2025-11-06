@@ -13,10 +13,10 @@ SESSION_NAME=$(basename "$DIR")
 
 switch_to() {
     if [[ -z $TMUX ]]; then
-        # Jika TIDAK di dalam tmux -> attach
+        # If NOT inside tmux -> attach
         tmux attach-session -t "$1"
     else
-        # Jika SUDAH di dalam tmux -> switch client
+        # If already inside tmux -> switch client
         tmux switch-client -t "$1"
     fi
 }
@@ -24,7 +24,7 @@ switch_to() {
 if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
     switch_to "$SESSION_NAME"
 else
-    # Buat session baru dalam keadaan detached
+    # Create new session in detached state
     tmux new-session -ds "$SESSION_NAME" -c "$DIR"
     switch_to "$SESSION_NAME"
 fi

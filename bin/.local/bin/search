@@ -1,13 +1,73 @@
 #!/usr/bin/env bash
 
-package="$(
-    apt-cache pkgnames | \
-        fzf -m \
-        --prompt="Select A Packages To Install: "\
-        --preview="apt show {}" \
-        --preview-window="top:75%" |
-    tr "\n" " "
-)"
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+CYAN=$(tput setaf 6)
 
-[[ $package ]] && read -n1 -p "Install ${package}? [y/N]: " install
-[[ "$install" == "y" ]] && apt install -y $package
+# Function to cleanup on exit
+cleanup() {
+    tput cnorm  
+    exit 0
+}
+
+trap cleanup EXIT INT
+
+main() {
+    tput civis
+    
+    package="$(
+        apt-cache pkgnames 2>/dev/null | \
+            fzf -m \
+            --prompt="${BOLD}${GREEN}Select A Package: ${RESET}" \
+            --header="↑↓: Navigation | Tab: Select multiple package | Enter: Confirm" \
+            --preview="echo -e '${BOLD}${CYAN}Package Information:${RESET}\n'; apt show {} 2>/dev/null" \
+            --preview-window="top" \
+            --bind="?:toggle-preview" \
+            --info=inline \
+            --ansi | \
+        tr "\n" " "
+    )"
+    
+    # Show cursor again
+    tput cnorm
+    
+    # If user pressed Ctrl+C or escaped
+    if [[ $? -ne 0 ]]; then
+        cleanup
+    fi
+    
+    # If packages were selected
+    if [[ -n "$package" ]]; then
+        echo "selected package: $package"
+        echo
+        
+        # Confirmation with timeout
+        read -t 30 -n1 -p "Install this package? [Y/n/q]: " install
+        
+        case "${install,,}" in
+            "" | "y" | "Y")
+                
+                if apt install -y $package; then
+                    echo
+                    echo "${BOLD}${GREEN}Installation complete!${RESET}"
+                else
+                    echo
+                    echo "${BOLD}${RED}Installation failure!${RESET}"
+                fi
+                ;;
+            "q")
+                echo
+                echo "Exiting..."
+                cleanup
+                ;;
+            *)
+                echo
+                echo "${BOLD}${RED}Installation canceled.${RESET}"
+                ;;
+        esac
+    fi
+}
+
+main

@@ -1,12 +1,79 @@
 #!/usr/bin/env bash
 
-package="$(dpkg-query -W -f='${Package}\n' |
-    fzf -m \
-    --prompt="Select A Package To Uninstall: "\
-    --preview="apt show {}" \
-    --preview-window="top:75%" |
-    tr "\n" " "
-)"
+BOLD=$(tput bold)
+RESET=$(tput sgr0)
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+CYAN=$(tput setaf 6)
 
-[[ $package ]] && read -n1 -p "Uninstall ${package}? [y/N]: " uninstall
-[[ "$uninstall" == "y" ]] && apt remove -y $package
+# Function to cleanup on exit
+cleanup() {
+    tput cnorm  
+    exit 0
+}
+
+trap cleanup EXIT INT
+
+main() {
+    tput civis
+    
+    package="$(dpkg-query -W -f='${Package}\n' |
+            fzf -m \
+            --prompt="${BOLD}${GREEN}Select A Package: ${RESET}" \
+            --header="↑↓: Navigation | Tab: Select multiple package | Enter: Confirm" \
+            --preview="echo -e '${BOLD}${CYAN}Package Information:${RESET}\n'; apt show {} 2>/dev/null" \
+            --preview-window="top" \
+            --bind="?:toggle-preview" \
+            --info=inline \
+            --ansi | \
+        tr "\n" " "
+    )"
+    
+    # Show cursor again
+    tput cnorm
+    
+    # If user pressed Ctrl+C or escaped
+    if [[ $? -ne 0 ]]; then
+        cleanup
+    fi
+    
+    # If packages were selected
+    if [[ -n "$package" ]]; then
+        echo "Selected package(s): $package"
+        echo
+        
+        # Confirmation with timeout
+        read -t 30 -n1 -p "Uninstall this package(s)? [Y/n/q]: " uninstall
+        echo  # Add newline after read
+        
+        case "${uninstall,,}" in
+            "y" | "")
+                # User pressed Enter (empty) or 'y'
+                if apt remove -y $package && apt autoremove; then
+                    echo
+                    echo "${BOLD}${GREEN}Uninstallation complete!${RESET}"
+                else
+                    echo
+                    echo "${BOLD}${RED}Uninstallation failed!${RESET}"
+                fi
+                ;;
+            "n")
+                echo
+                echo "${BOLD}${RED}Uninstallation canceled.${RESET}"
+                ;;
+            "q")
+                echo
+                echo "Exiting..."
+                cleanup
+                ;;
+            *)
+                echo
+                echo "${BOLD}${RED}Invalid choice. Uninstallation canceled.${RESET}"
+                ;;
+        esac
+    else
+        echo "No package selected."
+    fi
+}
+
+main
