@@ -48,8 +48,7 @@ main() {
         
         case "${uninstall,,}" in
             "y" | "")
-                # User pressed Enter (empty) or 'y'
-                if apt remove -y $package && apt autoremove; then
+                if apt remove -y $package && apt autoremove -y; then
                     echo
                     echo "${BOLD}${GREEN}Uninstallation complete!${RESET}"
                 else
@@ -72,7 +71,7 @@ main() {
                 ;;
         esac
     else
-        echo "No package selected."
+        echo "${BOLD}${CYAN}No Package Selected${RESET}"
     fi
 }
 

@@ -67,6 +67,8 @@ main() {
                 echo "${BOLD}${RED}Installation canceled.${RESET}"
                 ;;
         esac
+    else
+        echo "${BOLD}${CYAN}No Package Selected${RESET}"
     fi
 }
 
