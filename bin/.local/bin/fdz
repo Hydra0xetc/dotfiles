@@ -4,19 +4,18 @@ BASE="/data/data/com.termux/files/home"
 DIR_REL=$(fd . "$BASE" --type d -L | sed "s|^$BASE|/home|" | fzf --border --height=40% --prompt="Select directory: ")
 
 if [[ -z "$DIR_REL" ]]; then
-  exit 0
+    exit 0
 fi
 
 DIR="${DIR_REL/\/home/$BASE}"
 
-SESSION_NAME=$(basename "$DIR")
+# Sanitize session name - replace dots and other special chars with underscore
+SESSION_NAME=$(basename "$DIR" | sed 's/[^a-zA-Z0-9_-]/_/g')
 
 switch_to() {
     if [[ -z $TMUX ]]; then
-        # If NOT inside tmux -> attach
-        tmux attach-session -t "$1"
+        tmux attach -t "$1"
     else
-        # If already inside tmux -> switch client
         tmux switch-client -t "$1"
     fi
 }
@@ -24,7 +23,6 @@ switch_to() {
 if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
     switch_to "$SESSION_NAME"
 else
-    # Create new session in detached state
     tmux new-session -ds "$SESSION_NAME" -c "$DIR"
     switch_to "$SESSION_NAME"
 fi
